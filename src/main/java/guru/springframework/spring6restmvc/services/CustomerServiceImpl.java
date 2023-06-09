@@ -3,6 +3,7 @@ package guru.springframework.spring6restmvc.services;
 import guru.springframework.spring6restmvc.model.Customer;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -16,24 +17,24 @@ public class CustomerServiceImpl implements CustomerService {
                 .customerName("Yevhenii Kolosenko")
                 .id(UUID.randomUUID())
                 .version("1")
-                .createdDate(new Date())
-                .lastModifiedDate(new Date())
+                .createdDate(LocalDateTime.now())
+                .lastModifiedDate(LocalDateTime.now())
                 .build();
 
         Customer customer2 = Customer.builder()
                 .customerName("Sergii Kartashov")
                 .id(UUID.randomUUID())
                 .version("2")
-                .createdDate(new Date())
-                .lastModifiedDate(new Date())
+                .createdDate(LocalDateTime.now())
+                .lastModifiedDate(LocalDateTime.now())
                 .build();
 
         Customer customer3 = Customer.builder()
                 .customerName("Andrii Zarichny")
                 .id(UUID.randomUUID())
                 .version("3")
-                .createdDate(new Date())
-                .lastModifiedDate(new Date())
+                .createdDate(LocalDateTime.now())
+                .lastModifiedDate(LocalDateTime.now())
                 .build();
 
         customerMap.put(customer1.getId(), customer1);
@@ -49,5 +50,18 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer getCustomerById(UUID id) {
         return customerMap.get(id);
+    }
+
+    @Override
+    public Customer addCustomer(Customer customer) {
+        Customer addedCustomer = Customer.builder()
+                .id(UUID.randomUUID())
+                .createdDate(LocalDateTime.now())
+                .lastModifiedDate(LocalDateTime.now())
+                .customerName(customer.getCustomerName())
+                .version("1")
+                .build();
+        customerMap.put(addedCustomer.getId(), addedCustomer);
+        return addedCustomer;
     }
 }

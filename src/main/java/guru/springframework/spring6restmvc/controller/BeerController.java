@@ -4,10 +4,7 @@ import guru.springframework.spring6restmvc.model.Beer;
 import guru.springframework.spring6restmvc.services.BeerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +23,15 @@ public class BeerController {
     @PostMapping
     public ResponseEntity addBeer(@RequestBody Beer beer){
         Beer savedBeer = beerService.saveNewBeer(beer);
-        return new ResponseEntity(HttpStatus.CREATED);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "api/v1/beer/" + savedBeer.getId().toString());
+        return new ResponseEntity(headers, HttpStatus.CREATED);
+    }
+
+    @PutMapping("{beerId}")
+    public ResponseEntity updateBeer(@PathVariable UUID beerId, @RequestBody Beer beer){
+        beerService.updateBeer(beerId, beer);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(method = RequestMethod.GET)

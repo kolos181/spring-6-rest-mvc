@@ -10,4 +10,6 @@ import java.util.UUID;
 public interface CustomerService {
     Collection<Customer> getCustomers();
     Customer getCustomerById(UUID id);
+
+    Customer addCustomer(Customer customer);
 }
